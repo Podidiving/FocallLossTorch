@@ -92,9 +92,7 @@ class FocalLoss(torch.nn.Module):
         p = torch.sigmoid(logits)
         pt = p * ohe + (1.0 - p) * (1.0 - ohe)
 
-        bce = F.binary_cross_entropy_with_logits(
-            logits, ohe, reduction="none"
-        )
+        bce = F.binary_cross_entropy(p, ohe, reduction="none")
 
         loss = bce * ((1.0 - pt) ** self.gamma)
 
@@ -346,9 +344,7 @@ class FocalSmoothLoss(torch.nn.Module):
         p = torch.sigmoid(logits)
         pt = p * targets + (1.0 - p) * (1.0 - targets)
 
-        bce = F.binary_cross_entropy_with_logits(
-            logits, targets, reduction="none"
-        )
+        bce = F.binary_cross_entropy(p, targets, reduction="none")
 
         loss = bce * ((1.0 - pt) ** self.gamma)
 
